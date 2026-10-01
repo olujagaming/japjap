@@ -3,8 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AudioButton } from "@/components/japanese/audio-button";
 import { JapaneseText } from "@/components/japanese/japanese-text";
-import { KanaReviewActions } from "@/components/kana/kana-review-actions";
 import { StrokeOrder } from "@/components/kana/stroke-order";
+import { LearningActions } from "@/components/learning/learning-actions";
 import { SectionHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/card";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/ui/icons";
 import { getConfusionSets, getKanaByCharacter, KANA } from "@/data/kana";
 import { getKanaExamples } from "@/data/kana-examples";
+import { findVocabularyByJapanese } from "@/lib/content";
 import { getStrokeOrder, STROKE_ORDER_ATTRIBUTION } from "@/lib/japanese/stroke-order";
 import type { Kana } from "@/types/content";
 
@@ -135,7 +136,13 @@ export default async function KanaDetailPage({ params }: PageProps<"/kana/[chara
               {kana.pronunciation}
             </p>
           ) : null}
-          <KanaReviewActions kana={kana} />
+          <LearningActions
+            contentType="kana"
+            contentId={kana.id}
+            label={kana.character}
+            favorite={false}
+            practiceHref={`/kana/practice?mode=mixed&chars=${encodeURIComponent(kana.character)}`}
+          />
         </div>
       </header>
 
@@ -168,18 +175,29 @@ export default async function KanaDetailPage({ params }: PageProps<"/kana/[chara
           <SectionHeader title="Beispielwörter" ja="例" />
           {examples.length > 0 ? (
             <ul className="flex flex-col gap-3">
-              {examples.map((word) => (
-                <li key={word.japanese}>
-                  <Card className="py-4">
-                    <JapaneseText
-                      japanese={word.japanese}
-                      reading={word.reading}
-                      romaji={word.romaji}
-                      german={word.german}
-                    />
-                  </Card>
-                </li>
-              ))}
+              {examples.map((word) => {
+                const entry = findVocabularyByJapanese(word.japanese);
+                return (
+                  <li key={word.japanese}>
+                    <Card className="flex items-start justify-between gap-4 py-4">
+                      <JapaneseText
+                        japanese={word.japanese}
+                        reading={word.reading}
+                        romaji={word.romaji}
+                        german={word.german}
+                      />
+                      {entry ? (
+                        <Link
+                          href={`/vocabulary/${entry.id}`}
+                          className="shrink-0 text-sm text-accent underline-offset-4 hover:underline"
+                        >
+                          Zum Wort →
+                        </Link>
+                      ) : null}
+                    </Card>
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="text-sm text-muted">

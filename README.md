@@ -110,15 +110,29 @@ Umgebungsvariablen-Vorlage, Dokumentation.
   Übungsverlauf, Migration `0002`
 - Fortschrittsseite: Schriftsysteme nach Status, Aktivität der letzten 30 Tage, schwierige Inhalte
 
-**Als Nächstes: Phase 3 – Knowledge Core.** Vokabeln, Kanji und Grammatik inkl. Detailseiten,
-globale Suche (Japanisch, Kana, Romaji, Deutsch) und Verknüpfung der Inhalte untereinander –
-auch die Beispielwörter der Kana-Seiten werden dann zu Vokabel-Detailseiten verlinkt.
+**Phase 3 – Knowledge Core** ✅
 
-Danach: Phase 4 Situationen & Gespräche
-inkl. Listening · Phase 5 SRS & Reviews · Phase 6 AI-Gespräche · Phase 7 Sprache.
+- 104 Vokabeln, 36 Kanji, 12 Grammatikpunkte und 70 Beispielsätze – alle mit Lesung, Romaji und
+  natürlicher deutscher Übersetzung; Romaji, Strichzahlen und Verknüpfungen werden per Test geprüft
+- Vokabeln: Ansichten (Alle, Am Lernen, Bekannt, Favoriten), Suche, Filter (JLPT, Wortart,
+  Situation, Häufigkeit, Status), seitenweises Nachladen; Detailseite mit Bedeutungen, Hinweisen,
+  Kanji, Beispielsätzen und verwandten Wörtern
+- Kanji: Raster mit Filtern (JLPT, Schulklasse, Strichzahl, Radikal, Status); Detailseite mit
+  On-/Kun-Lesungen, Radikal, Bestandteilen, Merkhilfe, Strichreihenfolge, Wörtern und Sätzen
+- Grammatik als Nachschlagewerk, gruppiert nach Verwendung; Detailseite mit Struktur, Beispiel,
+  Erklärung, typischen Fehlern, natürlichen Beispielen und ähnlicher Grammatik
+- Globale Suche (Kanji, Hiragana, Katakana, Romaji, Deutsch, Englisch), gruppiert, lazy geladen,
+  per URL teilbar, mit Pfeiltasten bedienbar
+- Lernaktionen für alle Inhalte (Status, Wiederholung, bekannt, Schwierigkeit, Favorit) und
+  Favoritenseite inkl. gespeicherter Sätze; Kana-Beispielwörter verlinken auf Vokabeln
+
+**Als Nächstes: Phase 4 – Real-Life Japanese.** Zehn Situationen, 15 Gespräche mit Zeilen-Audio,
+Übersetzung, Furigana, Vokabel- und Grammatik-Aufschlüsselung sowie der Listening-Modus.
+
+Danach: Phase 5 SRS & Reviews · Phase 6 AI-Gespräche · Phase 7 Sprache.
 
 ## Lizenzhinweise
 
 Strichreihenfolge-Daten der Kana stammen aus [KanjiVG](https://kanjivg.tagaini.net)
 (© Ulrich Apel, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)) und liegen in
-`data/stroke-order/kana.json`. Aktualisieren mit `pnpm data:strokes`.
+`data/stroke-order/`. Aktualisieren mit `pnpm data:strokes`.

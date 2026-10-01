@@ -13,7 +13,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
-    "data:strokes": "node scripts/fetch-kana-strokes.mjs"
+    "data:strokes": "node scripts/fetch-kana-strokes.mjs && node scripts/fetch-kanji-strokes.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

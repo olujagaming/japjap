@@ -56,20 +56,44 @@ export type Kana = {
   confusionGroup?: string;
 };
 
+export const PARTS_OF_SPEECH = [
+  "noun",
+  "pronoun",
+  "verb-godan",
+  "verb-ichidan",
+  "verb-irregular",
+  "verb-suru",
+  "adj-i",
+  "adj-na",
+  "adverb",
+  "question",
+  "counter",
+  "expression",
+] as const;
+export type PartOfSpeech = (typeof PARTS_OF_SPEECH)[number];
+
+/** 1 = sehr häufig, 2 = häufig, 3 = gelegentlich */
+export type FrequencyTier = 1 | 2 | 3;
+
 export type Vocabulary = {
   id: string;
   japanese: string;
   reading: string;
-  /** Optional: Furigana-Notation `食[た]べる` für präzise Zuordnung. */
+  /** Furigana-Notation `食[た]べる` für präzise Zuordnung (nur bei Kanji). */
   furigana?: string;
   romaji: string;
   german: string[];
   english?: string[];
-  partOfSpeech: string;
+  partOfSpeech: PartOfSpeech;
   jlpt?: JlptLevel;
-  frequency?: number;
+  frequency: FrequencyTier;
   audioUrl?: string;
+  /** Themen und Situationen, z. B. „restaurant“, „time“. */
   tags: string[];
+  /** Kurzer Hinweis zur Verwendung auf Deutsch. */
+  noteDe?: string;
+  /** Inhaltlich verwandte Wörter (IDs). */
+  related: string[];
 };
 
 export type Kanji = {
@@ -77,16 +101,25 @@ export type Kanji = {
   character: string;
   meaningsDe: string[];
   meaningsEn?: string[];
+  /** Sino-japanische Lesungen in Katakana. */
   onyomi: string[];
+  /** Japanische Lesungen in Hiragana; Okurigana nach Punkt: た.べる */
   kunyomi: string[];
   radical: string;
+  radicalMeaningDe: string;
   components: string[];
   strokeCount: number;
   jlpt?: JlptLevel;
-  frequency?: number;
+  frequency: FrequencyTier;
   grade?: number;
   strokeOrderData?: string[];
+  /** Merkhilfe oder Hinweis auf Deutsch. */
+  noteDe?: string;
+  related: string[];
 };
+
+export const GRAMMAR_CATEGORIES = ["basics", "requests", "wishes", "connecting"] as const;
+export type GrammarCategory = (typeof GRAMMAR_CATEGORIES)[number];
 
 export type GrammarPoint = {
   id: string;
@@ -96,8 +129,12 @@ export type GrammarPoint = {
   structure: string;
   explanationDe: string;
   jlpt?: JlptLevel;
+  category: GrammarCategory;
+  /** Besonders häufig in Alltagsgesprächen. */
+  common: boolean;
   usageNotes?: string;
-  commonMistakes?: string[];
+  commonMistakes: string[];
+  similar: string[];
 };
 
 export type Sentence = {
@@ -107,6 +144,8 @@ export type Sentence = {
   reading: string;
   romaji: string;
   german: string;
+  /** Kontext für die Übersetzung, z. B. „an der Kasse“. */
+  contextDe?: string;
   audioUrl?: string;
   vocabularyIds: string[];
   grammarIds: string[];

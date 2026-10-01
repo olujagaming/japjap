@@ -219,3 +219,25 @@ export function useActivity(days = 30): Loadable<ActivityDay[]> {
     `activity:${days}`,
   );
 }
+
+/** Favoritenstatus eines Inhalts inkl. Umschalten. */
+export function useFavorite(contentType: ContentType, contentId: string) {
+  const state = useStoreQuery(
+    async (s) => (await s.listFavorites(contentType)).some((f) => f.contentId === contentId),
+    false,
+    `favorite:${contentType}:${contentId}`,
+  );
+  const toggle = useCallback(
+    () => userData.toggleFavorite(contentType, contentId),
+    [contentType, contentId],
+  );
+  return { ...state, toggle };
+}
+
+export function useFavorites(contentType?: ContentType) {
+  return useStoreQuery(
+    (s) => s.listFavorites(contentType),
+    [],
+    `favorites:${contentType ?? "all"}`,
+  );
+}
