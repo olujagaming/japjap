@@ -143,11 +143,27 @@ Umgebungsvariablen-Vorlage, Dokumentation.
 - Verknüpfungen: Gespräche auf Vokabel- und Grammatikseiten, Suche nach Situationen und
   Gesprächen, Gespräche als Favoriten, abgeschlossene Gespräche im Fortschritt
 
-**Als Nächstes: Phase 5 – Learning Engine.** Review-Queue über alle Inhaltsarten,
-gemischte Review-Session (Kana, Vokabeln, Kanji, Sätze, Situationen), Review-Verlauf und
-Review-Dashboard.
+**Phase 5 – Learning Engine** ✅
 
-Danach: Phase 6 AI-Gespräche · Phase 7 Sprache.
+- Review-Queue über Kana, Vokabeln, Kanji, Grammatik und Gespräche: fällige Inhalte, älteste
+  zuerst, Arten gemischt; Session-Größe nach Review-Intensität (10 / 20 / 40)
+- Aufgaben, die mit wachsender Sicherheit wechseln: Kana lesen, Bedeutung (Japanisch → Deutsch),
+  aktiv abrufen (Deutsch → Japanisch), Hören, Kanji-Bedeutung, Lückensätze zu jeder Grammatik
+  (24 Sätze, z. B. 明日東京に___。) und Situationsaufgaben aus den Gesprächen
+- Nicht-binäre Prüfung: Tippfehler, Teilbedeutungen und Vokallängen gelten als „fast richtig“,
+  freie Formulierungen werden selbst eingeschätzt
+- Bewertung Nochmal / Schwer / Gut / Leicht mit Intervall-Vorschau, Vorschlag aus der Prüfung,
+  Tastatur 1–4; „Nochmal“ kommt in derselben Session erneut
+- Review-Dashboard: fällig heute je Art, Vorschau der nächsten sieben Tage, schwierige Inhalte,
+  zuletzt falsch beantwortet, Verlauf
+- Startseite: fällige Wiederholungen, „Zuletzt entdeckt“, persönliche Schwierigkeiten;
+  Fortschrittsseite mit Listening der letzten 30 Tage
+
+**Als Nächstes: Phase 6 – AI Conversation.** Freie Gespräche mit einem AI-Partner (Claude):
+Setup (Situation, Niveau, Partner, Höflichkeit), Chat-UI, strukturierte und validierte
+Antworten, Feedback auf Abruf mit natürlicher Alternative und deutscher Erklärung.
+
+Danach: Phase 7 Sprache (optional).
 
 ## Lizenzhinweise
 

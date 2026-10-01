@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FavoriteButton } from "@/components/learning/favorite-button";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { PlayIcon, StopIcon } from "@/components/ui/icons";
@@ -10,6 +10,7 @@ import {
   isConversationCompleted,
   speakerPitch,
 } from "@/lib/learning/conversation";
+import { recordRecent } from "@/lib/recent";
 import type { Conversation } from "@/types/content";
 import { ConversationLineView, type LineGrammar } from "./conversation-line";
 import { usePlayAll } from "./use-play-all";
@@ -26,6 +27,7 @@ export function ConversationView({
   grammar: Record<string, LineGrammar>;
 }) {
   const [openWord, setOpenWord] = useState<DrawerWord | null>(null);
+  useEffect(() => recordRecent("conversation", conversation.id), [conversation.id]);
   const sources = useMemo(
     () =>
       conversation.lines.map((line) => ({

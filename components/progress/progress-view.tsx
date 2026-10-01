@@ -5,7 +5,12 @@ import { SectionHeader } from "@/components/layout/page-header";
 import { ProgressCard } from "@/components/learning/learning-card";
 import { ErrorState } from "@/components/ui/states";
 import { BASIC_COUNT, KANA } from "@/data/kana";
-import { useActivity, useProgressList, type ActivityDay } from "@/hooks/use-user-data";
+import {
+  useActivity,
+  useProgressList,
+  useReviewLog,
+  type ActivityDay,
+} from "@/hooks/use-user-data";
 import { isConversationCompleted } from "@/lib/learning/conversation";
 import { isDifficult, isKnownStatus } from "@/lib/learning/progress";
 import { LEARNING_STATUS_META } from "@/lib/learning-status";
@@ -111,6 +116,11 @@ function ActivityCalendar({ days }: { days: ActivityDay[] }) {
 export function ProgressView() {
   const { data: records, error } = useProgressList();
   const { data: activity } = useActivity(30);
+  const { data: log } = useReviewLog(30);
+  const listening = log.filter((e) => /listening/.test(e.taskType));
+  const listeningConversations = new Set(
+    listening.filter((e) => e.contentType === "conversation").map((e) => e.contentId),
+  ).size;
 
   if (error) return <ErrorState />;
 
@@ -165,6 +175,26 @@ export function ProgressView() {
           description="Ein ruhiger Blick auf die letzten 30 Tage – Pausen sind Teil des Lernens."
         />
         <ActivityCalendar days={activity} />
+      </section>
+
+      <section>
+        <SectionHeader
+          title="Listening"
+          ja="聞き取り"
+          description="Hörübungen der letzten 30 Tage."
+        />
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <ProgressCard
+            label="Hörübungen gesamt"
+            value={listening.length}
+            hint="Gespräche, Wörter und Kana"
+          />
+          <ProgressCard
+            label="Gespräche gehört"
+            value={listeningConversations}
+            hint="im Listening-Modus"
+          />
+        </div>
       </section>
 
       <section>

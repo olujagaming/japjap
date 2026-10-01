@@ -15,6 +15,7 @@ import {
   setDifficulty,
   type PerceivedDifficulty,
 } from "@/lib/learning/progress";
+import { recordRecent } from "@/lib/recent";
 import { cn } from "@/lib/utils";
 import type { ContentType } from "@/types/content";
 
@@ -53,7 +54,8 @@ export function LearningActions({
 
   useEffect(() => {
     void update(markSeen);
-  }, [update]);
+    recordRecent(contentType, contentId);
+  }, [update, contentType, contentId]);
 
   const difficulty = perceivedDifficulty(record);
   const attempts = record.correctCount + record.incorrectCount;
