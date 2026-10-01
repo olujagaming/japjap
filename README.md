@@ -126,10 +126,28 @@ Umgebungsvariablen-Vorlage, Dokumentation.
 - Lernaktionen für alle Inhalte (Status, Wiederholung, bekannt, Schwierigkeit, Favorit) und
   Favoritenseite inkl. gespeicherter Sätze; Kana-Beispielwörter verlinken auf Vokabeln
 
-**Als Nächstes: Phase 4 – Real-Life Japanese.** Zehn Situationen, 15 Gespräche mit Zeilen-Audio,
-Übersetzung, Furigana, Vokabel- und Grammatik-Aufschlüsselung sowie der Listening-Modus.
+**Phase 4 – Real-Life Japanese** ✅
 
-Danach: Phase 5 SRS & Reviews · Phase 6 AI-Gespräche · Phase 7 Sprache.
+- 10 Situationen mit Schlüsselausdrücken, Wortschatz, kulturellen Hinweisen und Gesprächen;
+  Übersicht mit Filtern (Anfänger, Alltag, Reisen, Social) und Fortschritt je Situation
+- 15 natürliche Gespräche (höflich und locker) mit 114 Zeilen – jede Zeile mit Audio, Furigana-
+  und Übersetzungsschalter, Wort- und Grammatik-Aufschlüsselung und Hinweisen; Wörter öffnen
+  einen Vokabel-Drawer mit Lernaktionen
+- „Alles abspielen“ mit Hervorhebung der aktuellen Zeile und unterschiedlicher Tonhöhe je Sprecher
+- Listening-Modus in sechs Stufen: nur hören (auch langsam, optional automatisch wiederholen) →
+  eigene Notizen → Transkript → Furigana → Übersetzung → Aufschlüsselung
+- Rollenspiel: Partnerzeilen werden vorgelesen, eigene Antworten auf Japanisch oder in Romaji,
+  tolerante Prüfung und nicht-binäre Selbsteinschätzung
+- Lernpfade (`/learn`) für Grundlagen, Alltag, Reisen und Kontakte mit Fortschritt und nächster
+  empfohlener Einheit
+- Verknüpfungen: Gespräche auf Vokabel- und Grammatikseiten, Suche nach Situationen und
+  Gesprächen, Gespräche als Favoriten, abgeschlossene Gespräche im Fortschritt
+
+**Als Nächstes: Phase 5 – Learning Engine.** Review-Queue über alle Inhaltsarten,
+gemischte Review-Session (Kana, Vokabeln, Kanji, Sätze, Situationen), Review-Verlauf und
+Review-Dashboard.
+
+Danach: Phase 6 AI-Gespräche · Phase 7 Sprache.
 
 ## Lizenzhinweise
 

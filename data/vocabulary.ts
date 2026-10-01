@@ -661,6 +661,299 @@ export const VOCABULARY: readonly Vocabulary[] = [
       related: ["hajimemashite"],
     },
   ),
+
+  // ---------- Aus den Gesprächen ----------
+  v(
+    "ohayou",
+    "おはようございます",
+    "ohayō gozaimasu",
+    ["Guten Morgen"],
+    "expression",
+    "N5",
+    1,
+    ["greeting"],
+    {
+      noteDe:
+        "Unter Freunden reicht おはよう. Am Arbeitsplatz oft den ganzen Tag über als erste Begrüßung.",
+      related: ["konnichiwa"],
+    },
+  ),
+  v("tenki", "天気[てんき]", "tenki", ["Wetter"], "noun", "N5", 1, ["greeting"]),
+  v("atatakai", "暖[あたた]かい", "atatakai", ["warm (Wetter, Temperatur)"], "adj-i", "N5", 1, [
+    "greeting",
+  ]),
+  v(
+    "itterasshai",
+    "いってらっしゃい",
+    "itterasshai",
+    ["Bis später! (zu jemandem, der weggeht)"],
+    "expression",
+    "N5",
+    2,
+    ["greeting"],
+    {
+      noteDe: "Antwort auf いってきます – wörtlich „Geh und komm wieder“.",
+      related: ["ittekimasu"],
+    },
+  ),
+  v(
+    "ittekimasu",
+    "いってきます",
+    "ittekimasu",
+    ["Bis später! (beim Weggehen)"],
+    "expression",
+    "N5",
+    2,
+    ["greeting"],
+    {
+      noteDe:
+        "Sagt man beim Verlassen des Hauses oder Büros – wörtlich „Ich gehe und komme wieder“.",
+      related: ["itterasshai"],
+    },
+  ),
+  v(
+    "jouzu",
+    "上手[じょうず]",
+    "jōzu",
+    ["gut (in etwas)", "geschickt"],
+    "adj-na",
+    "N5",
+    1,
+    ["introduction"],
+    {
+      noteDe:
+        "Über andere höflich お上手. Ein Kompliment wehrt man bescheiden ab: いいえ、まだまだです。",
+    },
+  ),
+  v("hajimete", "初[はじ]めて", "hajimete", ["zum ersten Mal"], "adverb", "N5", 1, [
+    "introduction",
+  ]),
+  v(
+    "kochirakoso",
+    "こちらこそ",
+    "kochira koso",
+    ["ganz meinerseits", "ich habe zu danken"],
+    "expression",
+    "N5",
+    2,
+    ["introduction"],
+    {
+      related: ["yoroshiku"],
+    },
+  ),
+  v("daigaku", "大学[だいがく]", "daigaku", ["Universität"], "noun", "N5", 1, ["introduction"], {
+    related: ["gakusei"],
+  }),
+  v("sugoi", "すごい", "sugoi", ["toll", "beeindruckend", "unglaublich"], "adj-i", "N4", 1, [
+    "friends",
+  ]),
+  v("ryouri", "料理[りょうり]", "ryōri", ["Kochen", "Gericht, Küche"], "noun", "N5", 1, [
+    "friends",
+    "food",
+  ]),
+  v("boku", "僕[ぼく]", "boku", ["ich (männlich, locker)"], "pronoun", "N5", 2, ["friends"], {
+    noteDe: "Lockeres „ich“, vor allem von Männern verwendet. Neutral und höflich ist 私.",
+    related: ["watashi"],
+  }),
+  v("denchi", "電池[でんち]", "denchi", ["Batterie"], "noun", "N3", 3, ["konbini", "shopping"]),
+  v("iriguchi", "入[い]り口[ぐち]", "iriguchi", ["Eingang"], "noun", "N5", 2, [
+    "directions",
+    "shopping",
+  ]),
+  v(
+    "chuumon",
+    "注文[ちゅうもん]",
+    "chūmon",
+    ["Bestellung"],
+    "noun",
+    "N4",
+    2,
+    ["restaurant", "cafe"],
+    {
+      noteDe: "Das Personal fragt höflich: ご注文はお決まりですか。",
+    },
+  ),
+  v("saizu", "サイズ", "saizu", ["Größe"], "noun", null, 2, ["cafe", "shopping"]),
+  v(
+    "tennai",
+    "店内[てんない]",
+    "tennai",
+    ["im Laden", "vor Ort (zum Hieressen)"],
+    "noun",
+    null,
+    2,
+    ["cafe"],
+    {
+      related: ["mochikaeri"],
+    },
+  ),
+  v(
+    "mochikaeri",
+    "持[も]ち帰[かえ]り",
+    "mochikaeri",
+    ["zum Mitnehmen"],
+    "noun",
+    null,
+    2,
+    ["cafe", "restaurant"],
+    {
+      noteDe:
+        "Auf die Frage 店内でお召し上がりですか antwortet man: 持ち帰りで。 („Zum Mitnehmen.“)",
+      related: ["tennai"],
+    },
+  ),
+  v(
+    "kashikomarimashita",
+    "かしこまりました",
+    "kashikomarimashita",
+    ["Sehr gern.", "Verstanden. (Personal zu Kunden)"],
+    "expression",
+    null,
+    2,
+    ["cafe", "restaurant", "hotel"],
+    {
+      noteDe:
+        "Sehr höfliche Bestätigung, die du vom Personal hörst. Selbst sagst du einfach 分かりました.",
+    },
+  ),
+  v("osusume", "おすすめ", "osusume", ["Empfehlung"], "noun", "N4", 2, ["cafe", "restaurant"]),
+  v("matcha", "抹茶[まっちゃ]", "matcha", ["Matcha (Grüntee-Pulver)"], "noun", null, 3, ["cafe"]),
+  v(
+    "shoushou",
+    "少々[しょうしょう]",
+    "shōshō",
+    ["ein wenig (sehr höflich)"],
+    "adverb",
+    "N4",
+    2,
+    ["restaurant", "cafe"],
+    {
+      noteDe: "Fast immer in 少々お待ちください – „Einen Moment, bitte.“",
+    },
+  ),
+  v(
+    "futari",
+    "二人[ふたり]",
+    "futari",
+    ["zwei Personen", "zu zweit"],
+    "counter",
+    "N5",
+    1,
+    ["restaurant"],
+    {
+      noteDe:
+        "Personen zählt man: 一人（ひとり）, 二人（ふたり）, ab drei mit 人（にん）: 三人（さんにん）.",
+    },
+  ),
+  v(
+    "teishoku",
+    "定食[ていしょく]",
+    "teishoku",
+    ["Menü, Tagesgericht (mit Reis und Suppe)"],
+    "noun",
+    null,
+    2,
+    ["restaurant"],
+  ),
+  v("biiru", "ビール", "bīru", ["Bier"], "noun", "N5", 2, ["restaurant"]),
+  v("zenbu", "全部[ぜんぶ]", "zenbu", ["alles", "insgesamt"], "noun", "N5", 1, [
+    "shopping",
+    "restaurant",
+  ]),
+  v(
+    "harau",
+    "払[はら]う",
+    "harau",
+    ["bezahlen"],
+    "verb-godan",
+    "N5",
+    1,
+    ["shopping", "restaurant"],
+    {
+      related: ["genkin", "kaado"],
+    },
+  ),
+  v("betsubetsu", "別々[べつべつ]", "betsubetsu", ["getrennt", "einzeln"], "adj-na", "N3", 3, [
+    "restaurant",
+  ]),
+  v(
+    "gochisousama",
+    "ごちそうさまでした",
+    "gochisōsama deshita",
+    ["Danke für das Essen (nach dem Essen)"],
+    "expression",
+    "N5",
+    1,
+    ["restaurant", "food"],
+    {
+      noteDe:
+        "Nach dem Essen, auch beim Verlassen eines Restaurants zum Personal. Vor dem Essen: いただきます.",
+    },
+  ),
+  v("tsukau", "使[つか]う", "tsukau", ["benutzen", "verwenden"], "verb-godan", "N5", 1, [
+    "station",
+    "basics",
+  ]),
+  v("kaisatsu", "改札[かいさつ]", "kaisatsu", ["Ticketsperre (im Bahnhof)"], "noun", null, 2, [
+    "station",
+  ]),
+  v("tomaru", "止[と]まる", "tomaru", ["anhalten", "halten"], "verb-godan", "N5", 2, ["station"]),
+  v(
+    "noru",
+    "乗[の]る",
+    "noru",
+    ["einsteigen", "fahren mit"],
+    "verb-godan",
+    "N5",
+    1,
+    ["station", "travel"],
+    {
+      noteDe: "Das Verkehrsmittel steht mit に: 電車に乗ります。",
+    },
+  ),
+  v("tsugi", "次[つぎ]", "tsugi", ["nächste(r)", "folgende(r)"], "noun", "N5", 1, [
+    "station",
+    "directions",
+  ]),
+  v("kyuukou", "急行[きゅうこう]", "kyūkō", ["Eilzug (hält nicht überall)"], "noun", "N4", 3, [
+    "station",
+  ]),
+  v(
+    "tasukarimashita",
+    "助[たす]かりました",
+    "tasukarimashita",
+    ["Das hat mir sehr geholfen."],
+    "expression",
+    null,
+    2,
+    ["directions", "station"],
+    {
+      noteDe: "Herzlicher als nur ありがとう – zeigt, dass die Hilfe wirklich etwas bewirkt hat.",
+    },
+  ),
+  v("pasupooto", "パスポート", "pasupōto", ["Reisepass"], "noun", "N5", 2, ["hotel", "travel"]),
+  v("mochiron", "もちろん", "mochiron", ["natürlich", "selbstverständlich"], "adverb", "N4", 1, [
+    "basics",
+  ]),
+  v("shichaku", "試着[しちゃく]", "shichaku", ["Anprobe", "Anprobieren"], "noun", null, 3, [
+    "shopping",
+  ]),
+  v("choudo", "ちょうど", "chōdo", ["genau", "gerade richtig"], "adverb", "N4", 2, ["shopping"]),
+  v("hima", "暇[ひま]", "hima", ["frei", "Zeit haben"], "adj-na", "N5", 1, ["friends"]),
+  v("doyoubi", "土曜日[どようび]", "doyōbi", ["Samstag"], "noun", "N5", 1, ["time", "friends"]),
+  v("atarashii", "新[あたら]しい", "atarashii", ["neu"], "adj-i", "N5", 1, ["basics"]),
+  v("au", "会[あ]う", "au", ["treffen", "sich treffen"], "verb-godan", "N5", 1, ["friends"], {
+    noteDe: "Die Person steht mit に oder と: 友達に会う。",
+    related: ["tomodachi"],
+  }),
+  v("mae", "前[まえ]", "mae", ["vor", "vorne", "vorher"], "noun", "N5", 1, ["directions", "time"]),
+  v("shingou", "信号[しんごう]", "shingō", ["Ampel"], "noun", "N4", 2, ["directions"]),
+  v("magaru", "曲[ま]がる", "magaru", ["abbiegen"], "verb-godan", "N5", 2, ["directions"], {
+    related: ["migi", "hidari"],
+  }),
+  v("aruku", "歩[ある]く", "aruku", ["zu Fuß gehen", "laufen"], "verb-godan", "N5", 1, [
+    "directions",
+  ]),
 ];
 
 const BY_ID = new Map(VOCABULARY.map((word) => [word.id, word]));

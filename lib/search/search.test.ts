@@ -55,3 +55,19 @@ describe("search", () => {
     for (const g of grouped) expect(g.items.length).toBeLessThanOrEqual(3);
   });
 });
+
+describe("search – Situationen und Gespräche", () => {
+  it("findet Situationen auf Deutsch und Japanisch", () => {
+    expect(search("bahnhof").some((r) => r.group === "situation" && r.id === "station")).toBe(true);
+    expect(search("コンビニ").some((r) => r.group === "situation" && r.id === "konbini")).toBe(
+      true,
+    );
+  });
+
+  it("findet Gespräche über ihren Titel", () => {
+    expect(search("restaurant").some((r) => r.group === "conversation")).toBe(true);
+    expect(
+      search("bestellen").some((r) => r.group === "conversation" && r.id === "cafe-order"),
+    ).toBe(true);
+  });
+});

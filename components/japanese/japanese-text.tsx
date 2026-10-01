@@ -17,6 +17,8 @@ export type JapaneseTextProps = {
   german?: string;
   english?: string;
   audioUrl?: string;
+  /** Tonhöhe der Sprachsynthese, z. B. je Sprecher. */
+  audioPitch?: number;
 
   /** Lokale Overrides – ohne Angabe gelten die globalen Einstellungen. */
   furiganaMode?: FuriganaMode;
@@ -47,6 +49,7 @@ export function JapaneseText({
   german,
   english,
   audioUrl,
+  audioPitch,
   furiganaMode,
   romajiVisible,
   translationMode,
@@ -73,6 +76,7 @@ export function JapaneseText({
           <AudioButton
             text={reading ?? japanese}
             url={audioUrl}
+            pitch={audioPitch}
             label={`Aussprache anhören: ${japanese}`}
             size={size === "sm" ? "sm" : size === "xl" || size === "display" ? "lg" : "md"}
           />

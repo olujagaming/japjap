@@ -2,11 +2,20 @@ import Link from "next/link";
 import { JapaneseText } from "@/components/japanese/japanese-text";
 import { Badge } from "@/components/ui/badge";
 import { CardLink } from "@/components/ui/card";
+import { ProgressBar } from "@/components/ui/progress-bar";
+import { DifficultyBadge } from "./badges";
 import { GRAMMAR_CATEGORY_LABELS } from "@/data/grammar";
 import { PART_OF_SPEECH_LABELS } from "@/data/vocabulary";
 import { LEARNING_STATUS_META } from "@/lib/learning-status";
 import { FavoriteButton } from "./favorite-button";
-import type { GrammarPoint, Kanji, LearningStatus, Sentence, Vocabulary } from "@/types/content";
+import type {
+  Difficulty,
+  GrammarPoint,
+  Kanji,
+  LearningStatus,
+  Sentence,
+  Vocabulary,
+} from "@/types/content";
 
 function StatusMark({ status }: { status?: LearningStatus }) {
   if (!status || status === "unseen") return null;
@@ -141,5 +150,81 @@ export function SentenceItem({
         </ul>
       ) : null}
     </div>
+  );
+}
+
+export function ConversationCard({
+  summary,
+  completed = false,
+}: {
+  summary: {
+    id: string;
+    titleJa: string;
+    titleDe: string;
+    situationTitleDe?: string;
+    difficulty: Difficulty;
+    minutes: number;
+    wordCount: number;
+    register?: "casual" | "polite";
+  };
+  completed?: boolean;
+}) {
+  return (
+    <CardLink href={`/conversations/${summary.id}`} className="flex h-full flex-col gap-2">
+      <p lang="ja" className="font-jp text-xl text-fg">
+        {summary.titleJa}
+      </p>
+      <p className="text-[0.95rem] text-fg/85">{summary.titleDe}</p>
+      {summary.situationTitleDe ? (
+        <p className="text-xs text-faint">{summary.situationTitleDe}</p>
+      ) : null}
+      <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+        <DifficultyBadge difficulty={summary.difficulty} />
+        <Badge>{summary.minutes} min</Badge>
+        <Badge>{summary.wordCount} Wörter</Badge>
+        {summary.register === "casual" ? <Badge tone="kohaku">locker</Badge> : null}
+        {completed ? (
+          <Badge tone="matcha">
+            <span aria-hidden="true">✓</span> durchgearbeitet
+          </Badge>
+        ) : null}
+      </div>
+      <span className="mt-2 text-sm font-medium text-accent">Gespräch öffnen →</span>
+    </CardLink>
+  );
+}
+
+export function SituationCard({
+  situation,
+  conversationCount,
+  completedCount = 0,
+}: {
+  situation: { slug: string; titleJa: string; titleDe: string; difficulty: Difficulty };
+  conversationCount: number;
+  completedCount?: number;
+}) {
+  return (
+    <CardLink href={`/situations/${situation.slug}`} className="flex h-full flex-col gap-2">
+      <p lang="ja" className="font-jp text-3xl leading-tight text-fg">
+        {situation.titleJa}
+      </p>
+      <p className="text-base font-medium">{situation.titleDe}</p>
+      <div className="mt-auto flex flex-wrap gap-1.5 pt-3">
+        <DifficultyBadge difficulty={situation.difficulty} />
+        <Badge>
+          {conversationCount} {conversationCount === 1 ? "Gespräch" : "Gespräche"}
+        </Badge>
+      </div>
+      <div className="pt-3">
+        <ProgressBar
+          value={completedCount}
+          max={conversationCount}
+          label={`Fortschritt ${situation.titleDe}`}
+        />
+        <p className="mt-1.5 text-xs text-faint tabular-nums">
+          {completedCount} / {conversationCount} durchgearbeitet
+        </p>
+      </div>
+    </CardLink>
   );
 }

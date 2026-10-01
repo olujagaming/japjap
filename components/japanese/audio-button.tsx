@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 export function AudioButton({
   text,
   url,
+  pitch,
   label,
   size = "md",
   className,
@@ -15,6 +16,7 @@ export function AudioButton({
   /** Japanischer Text – wird für TTS und das Screenreader-Label genutzt. */
   text: string;
   url?: string;
+  pitch?: number;
   /** Überschreibt das Screenreader-Label. */
   label?: string;
   size?: "sm" | "md" | "lg";
@@ -22,7 +24,7 @@ export function AudioButton({
 }) {
   const { activeKey, play, pause } = useAudio();
   const [failed, setFailed] = useState(false);
-  const source = { text, url };
+  const source = { text, url, pitch };
   const playing = activeKey === audioKey(source);
 
   const onClick = () => {

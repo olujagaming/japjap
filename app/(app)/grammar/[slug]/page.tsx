@@ -3,11 +3,13 @@ import { notFound } from "next/navigation";
 import { JapaneseText } from "@/components/japanese/japanese-text";
 import { BackLink } from "@/components/layout/back-link";
 import { SectionHeader } from "@/components/layout/page-header";
-import { GrammarCard, SentenceItem } from "@/components/learning/content-cards";
+import { ConversationCard, GrammarCard, SentenceItem } from "@/components/learning/content-cards";
+import { summarizeConversation } from "@/lib/content/conversation-data";
 import { LearningActions } from "@/components/learning/learning-actions";
 import { Badge } from "@/components/ui/badge";
 import { GRAMMAR_CATEGORY_LABELS } from "@/data/grammar";
 import {
+  conversationsForGrammar,
   getGrammarBySlug,
   listGrammar,
   sentencesForGrammar,
@@ -32,6 +34,7 @@ export default async function GrammarDetailPage({ params }: PageProps<"/grammar/
 
   const [headline, ...examples] = sentencesForGrammar(point.id);
   const similar = similarGrammar(point);
+  const conversations = conversationsForGrammar(point.id).slice(0, 4);
 
   return (
     <article className="flex max-w-4xl flex-col gap-12">
@@ -108,6 +111,19 @@ export default async function GrammarDetailPage({ params }: PageProps<"/grammar/
                 {examples.map((sentence) => (
                   <li key={sentence.id}>
                     <SentenceItem sentence={sentence} words={vocabularyInSentence(sentence)} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {conversations.length > 0 ? (
+            <section>
+              <SectionHeader title="In Gesprächen" ja="会話" />
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {conversations.map((c) => (
+                  <li key={c.id}>
+                    <ConversationCard summary={summarizeConversation(c)} />
                   </li>
                 ))}
               </ul>

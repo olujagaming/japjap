@@ -1,7 +1,9 @@
 import { KANA } from "@/data/kana";
+import { CONVERSATIONS } from "@/data/conversations";
 import { GRAMMAR } from "@/data/grammar";
 import { KANJI } from "@/data/kanji";
 import { SENTENCES } from "@/data/sentences";
+import { SITUATIONS } from "@/data/situations";
 import { VOCABULARY } from "@/data/vocabulary";
 import { normalizeRomaji, toHiragana } from "@/lib/japanese/romaji";
 
@@ -12,7 +14,15 @@ import { normalizeRomaji, toHiragana } from "@/lib/japanese/romaji";
  * Eingaben: Kanji, Hiragana, Katakana, Romaji, Deutsch, optional Englisch.
  */
 
-export const SEARCH_GROUPS = ["kana", "vocabulary", "kanji", "grammar", "sentence"] as const;
+export const SEARCH_GROUPS = [
+  "kana",
+  "vocabulary",
+  "kanji",
+  "grammar",
+  "conversation",
+  "situation",
+  "sentence",
+] as const;
 export type SearchGroup = (typeof SEARCH_GROUPS)[number];
 
 export const SEARCH_GROUP_LABELS: Record<SearchGroup, string> = {
@@ -20,6 +30,8 @@ export const SEARCH_GROUP_LABELS: Record<SearchGroup, string> = {
   vocabulary: "Vokabeln",
   kanji: "Kanji",
   grammar: "Grammatik",
+  conversation: "Gespräche",
+  situation: "Situationen",
   sentence: "Sätze",
 };
 
@@ -121,6 +133,35 @@ function buildIndex(): Entry[] {
       romaji: [normalizeRomaji(point.slug.replace(/-/g, ""))],
       meanings: meaningTerms([point.meaningDe]),
       boost: point.common ? 2 : 1,
+    });
+  }
+
+  for (const situation of SITUATIONS) {
+    entries.push({
+      group: "situation",
+      id: situation.id,
+      href: `/situations/${situation.slug}`,
+      japanese: situation.titleJa,
+      reading: situation.titleReading !== situation.titleJa ? situation.titleReading : undefined,
+      german: situation.titleDe,
+      ja: [normJa(situation.titleJa), normJa(situation.titleReading)],
+      romaji: [normalizeRomaji(situation.slug)],
+      meanings: meaningTerms([situation.titleDe]),
+      boost: 3,
+    });
+  }
+
+  for (const conversation of CONVERSATIONS) {
+    entries.push({
+      group: "conversation",
+      id: conversation.id,
+      href: `/conversations/${conversation.id}`,
+      japanese: conversation.titleJa,
+      german: conversation.titleDe,
+      ja: [normJa(conversation.titleJa), normJa(conversation.titleReading)],
+      romaji: [],
+      meanings: meaningTerms([conversation.titleDe]),
+      boost: 1,
     });
   }
 

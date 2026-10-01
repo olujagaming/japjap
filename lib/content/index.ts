@@ -1,9 +1,18 @@
+import { CONVERSATIONS, getConversation } from "@/data/conversations";
 import { GRAMMAR, getGrammar } from "@/data/grammar";
 import { getKanji, KANJI } from "@/data/kanji";
 import { SENTENCES } from "@/data/sentences";
+import { SITUATIONS, getSituation } from "@/data/situations";
 import { getVocabulary, VOCABULARY } from "@/data/vocabulary";
 import { KANJI_PATTERN } from "@/lib/utils";
-import type { GrammarPoint, Kanji, Sentence, Vocabulary } from "@/types/content";
+import type {
+  Conversation,
+  GrammarPoint,
+  Kanji,
+  Sentence,
+  Situation,
+  Vocabulary,
+} from "@/types/content";
 
 /**
  * Content-Repository: alle Abfragen und Verknüpfungen zwischen Lerninhalten.
@@ -79,4 +88,48 @@ export function similarGrammar(point: GrammarPoint): GrammarPoint[] {
 /** Vokabel-Eintrag für ein Wort in exakter Schreibweise (z. B. Kana-Beispielwörter). */
 export function findVocabularyByJapanese(japanese: string): Vocabulary | undefined {
   return VOCABULARY.find((v) => v.japanese === japanese);
+}
+
+// ---------------------------------------------------------------------------
+// Situationen und Gespräche
+// ---------------------------------------------------------------------------
+
+export { getConversation, getSituation };
+
+export const listSituations = (): readonly Situation[] => SITUATIONS;
+export const listConversations = (): readonly Conversation[] => CONVERSATIONS;
+
+export function conversationsForSituation(situationId: string): Conversation[] {
+  return CONVERSATIONS.filter((c) => c.situationId === situationId);
+}
+
+export function conversationsForVocabulary(id: string): Conversation[] {
+  return CONVERSATIONS.filter((c) => c.lines.some((l) => l.vocabularyIds.includes(id)));
+}
+
+export function conversationsForGrammar(id: string): Conversation[] {
+  return CONVERSATIONS.filter((c) => c.lines.some((l) => l.grammarIds.includes(id)));
+}
+
+export function situationVocabulary(situation: Situation): Vocabulary[] {
+  return resolve(situation.vocabularyIds, getVocabulary);
+}
+
+/** Alle in einem Gespräch verknüpften Wörter (eindeutig, in Reihenfolge des Auftretens). */
+export function conversationVocabulary(conversation: Conversation): Vocabulary[] {
+  return resolve([...new Set(conversation.lines.flatMap((l) => l.vocabularyIds))], getVocabulary);
+}
+
+export function conversationGrammar(conversation: Conversation): GrammarPoint[] {
+  return resolve([...new Set(conversation.lines.flatMap((l) => l.grammarIds))], getGrammar);
+}
+
+/** Geschätzte Dauer in Minuten (≈ 6 Moren pro Sekunde plus Pausen), mindestens 1. */
+export function conversationMinutes(conversation: Conversation): number {
+  const morae = conversation.lines.reduce(
+    (sum, l) => sum + l.reading.replace(/[ゃゅょャュョ。、？！]/g, "").length,
+    0,
+  );
+  const seconds = morae / 6 + conversation.lines.length * 1.5;
+  return Math.max(1, Math.round(seconds / 60));
 }

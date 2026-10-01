@@ -4,7 +4,12 @@ import { notFound } from "next/navigation";
 import { JapaneseText } from "@/components/japanese/japanese-text";
 import { BackLink } from "@/components/layout/back-link";
 import { SectionHeader } from "@/components/layout/page-header";
-import { SentenceItem, VocabularyCard } from "@/components/learning/content-cards";
+import {
+  ConversationCard,
+  SentenceItem,
+  VocabularyCard,
+} from "@/components/learning/content-cards";
+import { summarizeConversation } from "@/lib/content/conversation-data";
 import { LearningActions } from "@/components/learning/learning-actions";
 import { Badge } from "@/components/ui/badge";
 import { FREQUENCY_LABELS, PART_OF_SPEECH_LABELS, TAG_LABELS } from "@/data/vocabulary";
@@ -14,6 +19,7 @@ import {
   kanjiCharacters,
   getKanji,
   listVocabulary,
+  conversationsForVocabulary,
   relatedVocabulary,
   sentencesForVocabulary,
   vocabularyInSentence,
@@ -36,6 +42,7 @@ export default async function VocabularyDetailPage({ params }: PageProps<"/vocab
 
   const sentences = sentencesForVocabulary(word.id);
   const related = relatedVocabulary(word);
+  const conversations = conversationsForVocabulary(word.id);
   const kanji = kanjiCharacters(word.japanese).map((character) => ({
     character,
     entry: getKanji(character),
@@ -112,6 +119,23 @@ export default async function VocabularyDetailPage({ params }: PageProps<"/vocab
               </p>
             )}
           </section>
+
+          {conversations.length > 0 ? (
+            <section>
+              <SectionHeader
+                title="In Gesprächen"
+                ja="会話"
+                description="Hier begegnet dir das Wort im Zusammenhang."
+              />
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {conversations.map((c) => (
+                  <li key={c.id}>
+                    <ConversationCard summary={summarizeConversation(c)} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
         </div>
 
         <aside className="flex flex-col gap-12">

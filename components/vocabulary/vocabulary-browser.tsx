@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useDeferredValue, useMemo, useState } from "react";
 import { VocabularyCard } from "@/components/learning/content-cards";
 import { Button } from "@/components/ui/button";
@@ -64,7 +65,11 @@ function matchesText(word: Vocabulary, query: string) {
 export function VocabularyBrowser() {
   const [view, setView] = useState<View>("all");
   const [query, setQuery] = useState("");
-  const [filters, setFilters] = useState<Record<string, string>>(EMPTY_FILTERS);
+  const params = useSearchParams();
+  const [filters, setFilters] = useState<Record<string, string>>(() => {
+    const tag = params.get("tag");
+    return tag && TAG_LABELS[tag] ? { ...EMPTY_FILTERS, tag } : EMPTY_FILTERS;
+  });
   const [visible, setVisible] = useState(PAGE_SIZE);
   const deferredQuery = useDeferredValue(query.trim());
 

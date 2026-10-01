@@ -6,6 +6,7 @@ import { ProgressCard } from "@/components/learning/learning-card";
 import { ErrorState } from "@/components/ui/states";
 import { BASIC_COUNT, KANA } from "@/data/kana";
 import { useActivity, useProgressList, type ActivityDay } from "@/hooks/use-user-data";
+import { isConversationCompleted } from "@/lib/learning/conversation";
 import { isDifficult, isKnownStatus } from "@/lib/learning/progress";
 import { LEARNING_STATUS_META } from "@/lib/learning-status";
 import type { ProgressRecord } from "@/lib/store/types";
@@ -137,7 +138,7 @@ export function ProgressView() {
         <SectionHeader
           title="Wissen"
           ja="知識"
-          description="Vokabeln, Kanji und Grammatik füllen sich, sobald du diese Bereiche nutzt."
+          description="Was du sicher kannst – und wie viele Gespräche du schon durchgearbeitet hast."
         />
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <ProgressCard
@@ -151,7 +152,7 @@ export function ProgressView() {
           <ProgressCard
             label="Gespräche"
             ja="会話"
-            value={count("conversation", true)}
+            value={ofType("conversation").filter(isConversationCompleted).length}
             hint="abgeschlossen"
           />
         </div>

@@ -1,17 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { GrammarCard, KanjiCard, VocabularyCard } from "@/components/learning/content-cards";
+import {
+  ConversationCard,
+  GrammarCard,
+  KanjiCard,
+  VocabularyCard,
+} from "@/components/learning/content-cards";
 import { JapaneseText } from "@/components/japanese/japanese-text";
 import { FavoriteButton } from "@/components/learning/favorite-button";
 import { ButtonLink } from "@/components/ui/button";
 import { EmptyState, ErrorState, LoadingState } from "@/components/ui/states";
 import { Tabs } from "@/components/ui/tabs";
+import { getConversation } from "@/data/conversations";
 import { getGrammar } from "@/data/grammar";
 import { getKanji } from "@/data/kanji";
 import { getSentence } from "@/data/sentences";
 import { getVocabulary } from "@/data/vocabulary";
 import { useFavorites } from "@/hooks/use-user-data";
+import { summarizeConversation } from "@/lib/content/conversation-data";
 import type { ContentType } from "@/types/content";
 
 type Tab = Extract<ContentType, "vocabulary" | "kanji" | "grammar" | "conversation" | "sentence">;
@@ -40,7 +47,12 @@ const TABS: {
     empty: "Speichere Grammatik, die du nachschlagen möchtest.",
     browse: { href: "/grammar", label: "Grammatik ansehen" },
   },
-  { value: "conversation", label: "Gespräche", empty: "Gespeicherte Gespräche erscheinen hier." },
+  {
+    value: "conversation",
+    label: "Gespräche",
+    empty: "Speichere Gespräche mit dem Stern auf ihrer Seite.",
+    browse: { href: "/conversations", label: "Gespräche entdecken" },
+  },
   {
     value: "sentence",
     label: "Sätze",
@@ -101,6 +113,14 @@ export function FavoritesView() {
             return point ? (
               <li key={contentId}>
                 <GrammarCard point={point} />
+              </li>
+            ) : null;
+          }
+          if (tab === "conversation") {
+            const conversation = getConversation(contentId);
+            return conversation ? (
+              <li key={contentId}>
+                <ConversationCard summary={summarizeConversation(conversation)} />
               </li>
             ) : null;
           }

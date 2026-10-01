@@ -151,28 +151,44 @@ export type Sentence = {
   grammarIds: string[];
 };
 
+export const SITUATION_CATEGORIES = ["everyday", "travel", "social", "work"] as const;
+export type SituationCategory = (typeof SITUATION_CATEGORIES)[number];
+
+/** Fester Ausdruck, der in einer Situation immer wieder vorkommt. */
+export type KeyExpression = {
+  japanese: string;
+  furigana?: string;
+  reading: string;
+  romaji: string;
+  german: string;
+  noteDe?: string;
+};
+
 export type Situation = {
   id: string;
   slug: string;
   titleJa: string;
+  /** Lesung des japanischen Titels (für Furigana und Audio). */
+  titleReading: string;
   titleDe: string;
   descriptionDe: string;
   difficulty: Difficulty;
-  category: "everyday" | "travel" | "social" | "work";
+  category: SituationCategory;
+  keyExpressions: KeyExpression[];
+  culturalNotesDe: string[];
+  vocabularyIds: string[];
 };
 
-export type Conversation = {
-  id: string;
-  titleJa: string;
-  titleDe: string;
-  situationId: string;
-  difficulty: Difficulty;
-  jlptEstimate?: JlptLevel;
-  descriptionDe: string;
-  audioUrl?: string;
+export type Speaker = {
+  key: string;
+  nameDe: string;
+  nameJa: string;
+  /** Der Lernende selbst – im Rollenspiel antwortet der Nutzer für diese Rolle. */
+  isLearner: boolean;
 };
 
 export type ConversationLine = {
+  id: string;
   conversationId: string;
   speaker: string;
   position: number;
@@ -181,5 +197,24 @@ export type ConversationLine = {
   reading: string;
   romaji: string;
   german: string;
+  noteDe?: string;
   audioUrl?: string;
+  vocabularyIds: string[];
+  grammarIds: string[];
+};
+
+export type Conversation = {
+  id: string;
+  titleJa: string;
+  titleReading: string;
+  titleDe: string;
+  situationId: string;
+  difficulty: Difficulty;
+  jlptEstimate?: JlptLevel;
+  /** Höflichkeitsstufe des Gesprächs. */
+  register: "casual" | "polite";
+  descriptionDe: string;
+  audioUrl?: string;
+  speakers: Speaker[];
+  lines: ConversationLine[];
 };

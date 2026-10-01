@@ -40,3 +40,43 @@ describe("Content-Verknüpfungen", () => {
     expect(findVocabularyByJapanese("gibtsnicht")).toBeUndefined();
   });
 });
+
+import {
+  conversationGrammar,
+  conversationMinutes,
+  conversationVocabulary,
+  conversationsForGrammar,
+  conversationsForSituation,
+  conversationsForVocabulary,
+  getConversation,
+} from "./index";
+import { summarizeConversation } from "./conversation-data";
+
+describe("Gespräche und Situationen", () => {
+  it("ordnet Gespräche ihrer Situation zu", () => {
+    expect(conversationsForSituation("konbini").map((c) => c.id)).toEqual([
+      "konbini-checkout",
+      "konbini-asking",
+    ]);
+  });
+
+  it("findet Gespräche zu Wörtern und Grammatik", () => {
+    expect(conversationsForVocabulary("fukuro").map((c) => c.id)).toContain("konbini-checkout");
+    expect(conversationsForGrammar("te-mo-ii").map((c) => c.id)).toEqual(
+      expect.arrayContaining(["hotel-check-in", "shopping-fitting"]),
+    );
+  });
+
+  it("fasst Wörter, Grammatik und Dauer eines Gesprächs zusammen", () => {
+    const conversation = getConversation("cafe-order")!;
+    const words = conversationVocabulary(conversation).map((w) => w.id);
+    expect(new Set(words).size).toBe(words.length);
+    expect(words).toContain("mochikaeri");
+    expect(conversationGrammar(conversation).map((g) => g.id)).toContain("wo-kudasai");
+    expect(conversationMinutes(conversation)).toBeGreaterThanOrEqual(1);
+    expect(summarizeConversation(conversation)).toMatchObject({
+      situationTitleDe: "Café",
+      lineCount: 7,
+    });
+  });
+});
