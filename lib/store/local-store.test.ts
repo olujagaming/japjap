@@ -64,4 +64,48 @@ describe("LocalUserDataStore", () => {
     await memoryless.saveProfile(profile);
     expect(await memoryless.getProfile()).toBeNull();
   });
+
+  it("führt einen Übungsverlauf, neueste zuerst", async () => {
+    await store.recordReview({
+      contentType: "kana",
+      contentId: "h-a",
+      taskType: "kana-recognition",
+      rating: "good",
+      reviewedAt: "2026-09-01T10:00:00.000Z",
+    });
+    await store.recordReview({
+      contentType: "kana",
+      contentId: "h-i",
+      taskType: "kana-recognition",
+      rating: "again",
+      reviewedAt: "2026-10-01T10:00:00.000Z",
+    });
+    const log = await store.listReviewLog();
+    expect(log.map((e) => e.contentId)).toEqual(["h-i", "h-a"]);
+    expect(await store.listReviewLog({ since: "2026-09-15T00:00:00.000Z" })).toHaveLength(1);
+  });
+
+  it("liest ältere Fortschrittsdaten ohne SRS-Felder", async () => {
+    storage.setItem(
+      "japjap.userdata.v1",
+      JSON.stringify({
+        profile: null,
+        favorites: [],
+        progress: {
+          "kana:h-a": {
+            contentType: "kana",
+            contentId: "h-a",
+            status: "known",
+            easeFactor: 2.5,
+            intervalDays: 3,
+            nextReviewAt: null,
+            lastReviewedAt: null,
+            correctCount: 1,
+            incorrectCount: 0,
+          },
+        },
+      }),
+    );
+    expect((await store.getProgress("kana", "h-a"))?.repetitions).toBe(0);
+  });
 });

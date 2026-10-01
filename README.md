@@ -93,10 +93,32 @@ Umgebungsvariablen-Vorlage, Dokumentation.
 - Service-Verträge: AudioPlayer, AIProvider (+ validierte Antwort-Schemas), SpeechProvider, SrsScheduler, UserDataStore
 - Loading-, Error- und Empty-States; ehrliche Platzhalter für noch folgende Bereiche
 
-**Als Nächstes: Phase 2 – Kana.** Vollständige Hiragana-/Katakana-Daten (inkl. Dakuten, Handakuten,
-Yōon), Kana-Übersicht, Detailseiten mit Audio und Beispielwörtern, Übungsmodi inkl.
-Verwechslungstraining, persistenter Lernstatus und Kana-Fortschritt; Supabase-Implementierung des
-`UserDataStore`.
+**Phase 2 – Kana** ✅
 
-Danach: Phase 3 Knowledge Core (Vokabeln, Kanji, Grammatik, Suche) · Phase 4 Situationen & Gespräche
+- Vollständige Daten: je 46 Grundzeichen, 20 Dakuten, 5 Handakuten, 33 Yōon für Hiragana und
+  Katakana sowie 15 erweiterte Katakana – mit Aussprachehinweisen für Deutschsprachige,
+  Beziehungen (Gegenstück, Varianten, Kombinationen) und Verwechslungsgruppen mit Unterscheidungstipps
+- Rund 230 Beispielwörter mit Lesung, Romaji und natürlicher deutscher Übersetzung (per Test gegen
+  die automatische Umschrift geprüft)
+- Kana-Übersicht als Tabellen mit Lernstatus, Fortschritt (x / 46), Problemzeichen und fälligen Zeichen
+- Detailseite je Zeichen: Audio, animierte Strichreihenfolge (KanjiVG), Beispielwörter, verwandte
+  und verwechselbare Zeichen, Aktionen (Wiederholen, Als bekannt markieren, Schwierigkeit)
+- Übungen: Erkennen (Texteingabe), Abrufen, Hören, Wörter lesen, Verwechslungstraining, adaptive
+  Mischung; tolerante Romaji-Prüfung (Hepburn/Kunrei, lange Vokale, „fast richtig“)
+- SM-2-Scheduler und Lernstatus-Regeln (unseen → familiar → learning → known → mastered)
+- Nutzerdaten: Supabase-Implementierung des `UserDataStore` (automatisch bei Anmeldung),
+  Übungsverlauf, Migration `0002`
+- Fortschrittsseite: Schriftsysteme nach Status, Aktivität der letzten 30 Tage, schwierige Inhalte
+
+**Als Nächstes: Phase 3 – Knowledge Core.** Vokabeln, Kanji und Grammatik inkl. Detailseiten,
+globale Suche (Japanisch, Kana, Romaji, Deutsch) und Verknüpfung der Inhalte untereinander –
+auch die Beispielwörter der Kana-Seiten werden dann zu Vokabel-Detailseiten verlinkt.
+
+Danach: Phase 4 Situationen & Gespräche
 inkl. Listening · Phase 5 SRS & Reviews · Phase 6 AI-Gespräche · Phase 7 Sprache.
+
+## Lizenzhinweise
+
+Strichreihenfolge-Daten der Kana stammen aus [KanjiVG](https://kanjivg.tagaini.net)
+(© Ulrich Apel, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)) und liegen in
+`data/stroke-order/kana.json`. Aktualisieren mit `pnpm data:strokes`.

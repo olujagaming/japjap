@@ -24,22 +24,34 @@ export type JlptLevel = "N5" | "N4" | "N3" | "N2" | "N1";
 
 export type ScriptType = "hiragana" | "katakana";
 
+export const KANA_GROUPS = ["basic", "dakuten", "handakuten", "yoon", "extended"] as const;
+export type KanaGroup = (typeof KANA_GROUPS)[number];
+
 export type Kana = {
   id: string;
   character: string;
   scriptType: ScriptType;
+  /** Hepburn-Umschrift. */
   romaji: string;
-  /** Aussprachehinweis auf Deutsch, z. B. „wie ‚tsu‘ in ‚Tsunami‘“. */
+  /** Weitere akzeptierte Eingaben (z. B. Kunrei-shiki „si“ für し). */
+  alternatives: string[];
+  /** Aussprachehinweis auf Deutsch. */
   pronunciation?: string;
+  /** Konsonantenreihe, z. B. „ka“; „vowel“ für あ-Reihe. */
   row: string;
-  group: "basic" | "dakuten" | "handakuten" | "yoon";
+  /** Vokalspalte 0–4 (a i u e o) für die Tabellenanordnung; bei Yōon 0–2 (ya yu yo). */
+  column: number;
+  group: KanaGroup;
   strokeCount?: number;
-  /** Vorbereitet für SVG-Strichdaten (z. B. KanjiVG-Format). */
+  /** SVG-Pfade je Strich (KanjiVG, viewBox 0 0 109 109). Wird bei Bedarf geladen. */
   strokeOrderData?: string[];
   audioUrl?: string;
+  /** Grundzeichen eines Dakuten-/Handakuten-/Yōon-Zeichens. */
   baseCharacter?: string;
   dakutenVariant?: string;
   handakutenVariant?: string;
+  /** Gleiches Zeichen in der anderen Silbenschrift. */
+  counterpart?: string;
   relatedCharacters: string[];
   confusionGroup?: string;
 };
