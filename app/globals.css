@@ -1,0 +1,269 @@
+@import "tailwindcss";
+
+/*
+ * japjap Design Tokens
+ * Sumi (Tusche), Warm Paper, Aizome (Indigo), Akane (Krapprot), Matcha, Kohaku (Bernstein), Stone.
+ * Semantische Tokens werden per [data-theme] umgeschaltet; Tailwind-Utilities greifen auf sie zu.
+ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  color-scheme: light;
+
+  --bg: #f5f2ea;
+  --surface: #fbf9f4;
+  --surface-2: #efebe1;
+  --line: #ddd7ca;
+  --line-strong: #c4bdae;
+  --fg: #1e1e1c;
+  --muted: #5f5b53;
+  --faint: #8a857a;
+
+  --accent: #264653;
+  --accent-hover: #1c3640;
+  --accent-fg: #f5f2ea;
+  --accent-soft: #e2e8e8;
+
+  --akane: #9b3d3d;
+  --akane-soft: #f2e2de;
+  --matcha: #55693f;
+  --matcha-soft: #e5eadb;
+  --kohaku: #8f6a1f;
+  --kohaku-soft: #f1e8d3;
+
+  --focus: #264653;
+  --shadow: 0 1px 2px rgb(30 30 28 / 0.04), 0 4px 16px -8px rgb(30 30 28 / 0.12);
+
+  /* Skalierung japanischer Schrift (Einstellungen → Schriftgröße Japanisch) */
+  --jp-scale: 1;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #151514;
+  --surface: #1d1d1b;
+  --surface-2: #262623;
+  --line: #34332f;
+  --line-strong: #4a4842;
+  --fg: #ece8de;
+  --muted: #aaa598;
+  --faint: #7f7a70;
+
+  --accent: #93b7c2;
+  --accent-hover: #aecbd3;
+  --accent-fg: #151514;
+  --accent-soft: #1f3138;
+
+  --akane: #d88a7f;
+  --akane-soft: #3a2422;
+  --matcha: #a3b98e;
+  --matcha-soft: #263022;
+  --kohaku: #d6b46a;
+  --kohaku-soft: #352c1a;
+
+  --focus: #93b7c2;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-akane: var(--akane);
+  --color-akane-soft: var(--akane-soft);
+  --color-matcha: var(--matcha);
+  --color-matcha-soft: var(--matcha-soft);
+  --color-kohaku: var(--kohaku);
+  --color-kohaku-soft: var(--kohaku-soft);
+
+  --font-sans: var(--font-ui), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-jp:
+    var(--font-japanese), "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic",
+    "Noto Sans JP", "Meiryo", sans-serif;
+
+  --shadow-soft: var(--shadow);
+  --ease-calm: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ---------- Basis ---------- */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Japanische Typografie ---------- */
+
+:lang(ja),
+.font-jp {
+  font-family: var(--font-jp);
+  font-feature-settings: "palt" 0;
+  line-break: strict;
+  word-break: normal;
+}
+
+.jp-text {
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
+
+/* Japanische Größen skalieren mit der Nutzereinstellung */
+.jp-size-sm {
+  font-size: calc(1rem * var(--jp-scale));
+}
+.jp-size-md {
+  font-size: calc(1.25rem * var(--jp-scale));
+}
+.jp-size-lg {
+  font-size: calc(1.625rem * var(--jp-scale));
+}
+.jp-size-xl {
+  font-size: calc(2.25rem * var(--jp-scale));
+  line-height: 1.7;
+}
+.jp-size-display {
+  font-size: calc(4.5rem * var(--jp-scale));
+  line-height: 1.3;
+}
+
+ruby {
+  ruby-position: over;
+  ruby-align: center;
+}
+
+rt {
+  font-size: 0.5em;
+  line-height: 1;
+  color: var(--muted);
+  letter-spacing: 0;
+  font-weight: 400;
+  user-select: none;
+  display: var(--rt-display, ruby-text);
+}
+
+ruby[data-known] > rt {
+  display: var(--rt-known-display, var(--rt-display, ruby-text));
+}
+
+/* ---------- Lesehilfen (globale Einstellungen + lokale Overrides) ----------
+ * Die Werte werden vor dem ersten Paint per Inline-Script als data-Attribute auf <html> gesetzt.
+ * Komponenten können sie lokal mit denselben Attributen überschreiben (CSS-Variablen erben).
+ */
+
+[data-furigana="always"] {
+  --rt-display: ruby-text;
+  --rt-known-display: ruby-text;
+}
+[data-furigana="unknown"] {
+  --rt-display: ruby-text;
+  --rt-known-display: none;
+}
+[data-furigana="off"] {
+  --rt-display: none;
+  --rt-known-display: none;
+}
+
+[data-romaji="on"] {
+  --romaji-display: block;
+}
+[data-romaji="off"] {
+  --romaji-display: none;
+}
+
+[data-translation="always"] {
+  --tr-display: block;
+  --tr-toggle-display: none;
+}
+[data-translation="click"] {
+  --tr-display: none;
+  --tr-toggle-display: inline-flex;
+}
+[data-translation="off"] {
+  --tr-display: none;
+  --tr-toggle-display: none;
+}
+[data-translation="click"] [data-revealed="true"],
+[data-translation="click"][data-revealed="true"] {
+  --tr-display: block;
+}
+
+.jp-romaji {
+  display: var(--romaji-display, block);
+}
+.jp-translation {
+  display: var(--tr-display, block);
+}
+.jp-translation-toggle {
+  display: var(--tr-toggle-display, none);
+}
+
+/* ---------- Hilfsklassen ---------- */
+
+.hairline {
+  border-color: var(--line);
+}
+
+.animate-in {
+  animation: fade-in 220ms var(--ease-calm) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Romaji ist lateinische Schrift – nie mit der japanischen Schrift setzen (Makronen!). */
+.jp-romaji:lang(ja) {
+  font-family: var(--font-sans);
+}
