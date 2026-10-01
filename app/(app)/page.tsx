@@ -1,4 +1,7 @@
 import { ContinueCard } from "@/components/home/continue-card";
+import { DifficultItems } from "@/components/home/difficult-items";
+import { DueBadge } from "@/components/home/due-badge";
+import { RecentDiscoveries } from "@/components/home/recent-discoveries";
 import { Greeting } from "@/components/home/greeting";
 import { LearningOverview } from "@/components/home/learning-overview";
 import { ReviewSummary } from "@/components/home/review-summary";
@@ -14,6 +17,7 @@ const TODAY = [
     title: "Wiederholen",
     ja: "復習",
     description: "Fällige Inhalte kurz auffrischen, bevor sie verblassen.",
+    dueBadge: true,
   },
   {
     href: "/kana",
@@ -48,8 +52,8 @@ export default function HomePage() {
       <section>
         <SectionHeader title="Heute" ja="今日" />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {TODAY.map((item) => (
-            <LearningCard key={item.href} {...item} />
+          {TODAY.map(({ dueBadge, ...item }) => (
+            <LearningCard key={item.href} {...item} meta={dueBadge ? <DueBadge /> : undefined} />
           ))}
         </div>
       </section>
@@ -62,6 +66,17 @@ export default function HomePage() {
         />
         <LearningOverview />
       </section>
+
+      <div className="grid gap-12 lg:grid-cols-2">
+        <section>
+          <SectionHeader title="Zuletzt entdeckt" ja="最近" />
+          <RecentDiscoveries />
+        </section>
+        <section>
+          <SectionHeader title="Schwierige Inhalte" ja="苦手" />
+          <DifficultItems />
+        </section>
+      </div>
 
       <section>
         <SectionHeader

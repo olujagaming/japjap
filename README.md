@@ -93,10 +93,99 @@ Umgebungsvariablen-Vorlage, Dokumentation.
 - Service-Verträge: AudioPlayer, AIProvider (+ validierte Antwort-Schemas), SpeechProvider, SrsScheduler, UserDataStore
 - Loading-, Error- und Empty-States; ehrliche Platzhalter für noch folgende Bereiche
 
-**Als Nächstes: Phase 2 – Kana.** Vollständige Hiragana-/Katakana-Daten (inkl. Dakuten, Handakuten,
-Yōon), Kana-Übersicht, Detailseiten mit Audio und Beispielwörtern, Übungsmodi inkl.
-Verwechslungstraining, persistenter Lernstatus und Kana-Fortschritt; Supabase-Implementierung des
-`UserDataStore`.
+**Phase 2 – Kana** ✅
 
-Danach: Phase 3 Knowledge Core (Vokabeln, Kanji, Grammatik, Suche) · Phase 4 Situationen & Gespräche
-inkl. Listening · Phase 5 SRS & Reviews · Phase 6 AI-Gespräche · Phase 7 Sprache.
+- Vollständige Daten: je 46 Grundzeichen, 20 Dakuten, 5 Handakuten, 33 Yōon für Hiragana und
+  Katakana sowie 15 erweiterte Katakana – mit Aussprachehinweisen für Deutschsprachige,
+  Beziehungen (Gegenstück, Varianten, Kombinationen) und Verwechslungsgruppen mit Unterscheidungstipps
+- Rund 230 Beispielwörter mit Lesung, Romaji und natürlicher deutscher Übersetzung (per Test gegen
+  die automatische Umschrift geprüft)
+- Kana-Übersicht als Tabellen mit Lernstatus, Fortschritt (x / 46), Problemzeichen und fälligen Zeichen
+- Detailseite je Zeichen: Audio, animierte Strichreihenfolge (KanjiVG), Beispielwörter, verwandte
+  und verwechselbare Zeichen, Aktionen (Wiederholen, Als bekannt markieren, Schwierigkeit)
+- Übungen: Erkennen (Texteingabe), Abrufen, Hören, Wörter lesen, Verwechslungstraining, adaptive
+  Mischung; tolerante Romaji-Prüfung (Hepburn/Kunrei, lange Vokale, „fast richtig“)
+- SM-2-Scheduler und Lernstatus-Regeln (unseen → familiar → learning → known → mastered)
+- Nutzerdaten: Supabase-Implementierung des `UserDataStore` (automatisch bei Anmeldung),
+  Übungsverlauf, Migration `0002`
+- Fortschrittsseite: Schriftsysteme nach Status, Aktivität der letzten 30 Tage, schwierige Inhalte
+
+**Phase 3 – Knowledge Core** ✅
+
+- 104 Vokabeln, 36 Kanji, 12 Grammatikpunkte und 70 Beispielsätze – alle mit Lesung, Romaji und
+  natürlicher deutscher Übersetzung; Romaji, Strichzahlen und Verknüpfungen werden per Test geprüft
+- Vokabeln: Ansichten (Alle, Am Lernen, Bekannt, Favoriten), Suche, Filter (JLPT, Wortart,
+  Situation, Häufigkeit, Status), seitenweises Nachladen; Detailseite mit Bedeutungen, Hinweisen,
+  Kanji, Beispielsätzen und verwandten Wörtern
+- Kanji: Raster mit Filtern (JLPT, Schulklasse, Strichzahl, Radikal, Status); Detailseite mit
+  On-/Kun-Lesungen, Radikal, Bestandteilen, Merkhilfe, Strichreihenfolge, Wörtern und Sätzen
+- Grammatik als Nachschlagewerk, gruppiert nach Verwendung; Detailseite mit Struktur, Beispiel,
+  Erklärung, typischen Fehlern, natürlichen Beispielen und ähnlicher Grammatik
+- Globale Suche (Kanji, Hiragana, Katakana, Romaji, Deutsch, Englisch), gruppiert, lazy geladen,
+  per URL teilbar, mit Pfeiltasten bedienbar
+- Lernaktionen für alle Inhalte (Status, Wiederholung, bekannt, Schwierigkeit, Favorit) und
+  Favoritenseite inkl. gespeicherter Sätze; Kana-Beispielwörter verlinken auf Vokabeln
+
+**Phase 4 – Real-Life Japanese** ✅
+
+- 10 Situationen mit Schlüsselausdrücken, Wortschatz, kulturellen Hinweisen und Gesprächen;
+  Übersicht mit Filtern (Anfänger, Alltag, Reisen, Social) und Fortschritt je Situation
+- 15 natürliche Gespräche (höflich und locker) mit 114 Zeilen – jede Zeile mit Audio, Furigana-
+  und Übersetzungsschalter, Wort- und Grammatik-Aufschlüsselung und Hinweisen; Wörter öffnen
+  einen Vokabel-Drawer mit Lernaktionen
+- „Alles abspielen“ mit Hervorhebung der aktuellen Zeile und unterschiedlicher Tonhöhe je Sprecher
+- Listening-Modus in sechs Stufen: nur hören (auch langsam, optional automatisch wiederholen) →
+  eigene Notizen → Transkript → Furigana → Übersetzung → Aufschlüsselung
+- Rollenspiel: Partnerzeilen werden vorgelesen, eigene Antworten auf Japanisch oder in Romaji,
+  tolerante Prüfung und nicht-binäre Selbsteinschätzung
+- Lernpfade (`/learn`) für Grundlagen, Alltag, Reisen und Kontakte mit Fortschritt und nächster
+  empfohlener Einheit
+- Verknüpfungen: Gespräche auf Vokabel- und Grammatikseiten, Suche nach Situationen und
+  Gesprächen, Gespräche als Favoriten, abgeschlossene Gespräche im Fortschritt
+
+**Phase 5 – Learning Engine** ✅
+
+- Review-Queue über Kana, Vokabeln, Kanji, Grammatik und Gespräche: fällige Inhalte, älteste
+  zuerst, Arten gemischt; Session-Größe nach Review-Intensität (10 / 20 / 40)
+- Aufgaben, die mit wachsender Sicherheit wechseln: Kana lesen, Bedeutung (Japanisch → Deutsch),
+  aktiv abrufen (Deutsch → Japanisch), Hören, Kanji-Bedeutung, Lückensätze zu jeder Grammatik
+  (24 Sätze, z. B. 明日東京に___。) und Situationsaufgaben aus den Gesprächen
+- Nicht-binäre Prüfung: Tippfehler, Teilbedeutungen und Vokallängen gelten als „fast richtig“,
+  freie Formulierungen werden selbst eingeschätzt
+- Bewertung Nochmal / Schwer / Gut / Leicht mit Intervall-Vorschau, Vorschlag aus der Prüfung,
+  Tastatur 1–4; „Nochmal“ kommt in derselben Session erneut
+- Review-Dashboard: fällig heute je Art, Vorschau der nächsten sieben Tage, schwierige Inhalte,
+  zuletzt falsch beantwortet, Verlauf
+- Startseite: fällige Wiederholungen, „Zuletzt entdeckt“, persönliche Schwierigkeiten;
+  Fortschrittsseite mit Listening der letzten 30 Tage
+
+**Phase 6 – AI Conversation** ✅
+
+- Freie Gespräche mit Claude (`/practice/conversation`): Situation, Niveau, Gesprächspartner und
+  Höflichkeit wählbar; Einstieg auch direkt von jeder Situationsseite („Frei mit AI üben“)
+- Der Partner kennt deinen Wortschatz und deine Grammatik aus dem Fortschritt und passt Satzlänge
+  und Vokabular ans Niveau an
+- Jede Antwort mit Furigana, Romaji, Übersetzung und Worterklärungen auf Klick, dazu ein Tipp
+- Feedback nur auf Abruf: Verständlichkeit, Grammatik, Natürlichkeit, Höflichkeit, kurze deutsche
+  Erklärung und natürlichere Alternative
+- Strukturierte Ausgaben, doppelt mit Zod validiert; Ablehnungen und abgeschnittene Antworten
+  werden als verständliche Fehlermeldung mit „Erneut versuchen“ angezeigt
+- Sicherheit: `ANTHROPIC_API_KEY` nur serverseitig (Server Actions), Eingaben validiert,
+  Rate-Limit 30 Anfragen / 10 Minuten; mit konfiguriertem Supabase nur für angemeldete Nutzer.
+  Ohne Key zeigt die Seite einen Hinweis und verweist auf die geskripteten Rollenspiele.
+
+**Phase 7 – Sprache** ✅
+
+- Spracheingabe per Mikrofon (Web Speech API, ja-JP) im AI-Chat und in den Rollenspielen
+- „Nachsprechen“ auf Vokabelseiten und bei Gesprächszeilen: Bewertung, wie gut die Erkennung das
+  Gesagte verstanden hat (0–100, mit Hinweis). Das ist ein Erkennungssignal, keine phonetische
+  Ausspracheanalyse.
+- Buttons erscheinen nur in Browsern mit Spracherkennung (z. B. Chrome, Edge, Safari)
+- `SpeechProvider`-Interface mit Erweiterungspunkten für serverseitige Transkription und
+  echte Ausspracheanalyse
+
+## Lizenzhinweise
+
+Strichreihenfolge-Daten der Kana stammen aus [KanjiVG](https://kanjivg.tagaini.net)
+(© Ulrich Apel, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)) und liegen in
+`data/stroke-order/`. Aktualisieren mit `pnpm data:strokes`.

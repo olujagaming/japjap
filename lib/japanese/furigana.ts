@@ -34,15 +34,42 @@ export function readingFromFurigana(source: string): string {
 
 const isKanji = (char: string) => KANJI_PATTERN.test(char);
 
+const toHira = (text: string) =>
+  text.replace(/[\u30A1-\u30F6]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60));
+
+const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 /**
- * Leitet Segmente aus Wort + Gesamtlesung ab, indem gemeinsame Kana am Anfang
- * und Ende (Okurigana) abgetrennt werden: 食べる/たべる → 食(た) + べる.
- * Fällt bei unklarer Zuordnung auf eine Lesung für den gesamten Kanji-Kern zurück.
+ * Ordnet Lesungen über Kana-Anker zu: Jede Kanji-Folge wird zu einer Gruppe, alle Kana
+ * dazwischen müssen in der Lesung wörtlich vorkommen. ご注文はお決まり → 注文(ちゅうもん), 決(き).
+ */
+function alignByKanaAnchors(japanese: string, reading: string): FuriganaSegment[] | null {
+  const runs = japanese.match(
+    /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF々〆ヶ]+|[^\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF々〆ヶ]+/g,
+  );
+  if (!runs) return null;
+  const pattern = runs
+    .map((run) => (KANJI_PATTERN.test(run[0]) ? "(.+?)" : escapeRegExp(toHira(run))))
+    .join("");
+  const match = new RegExp(`^${pattern}$`, "u").exec(toHira(reading));
+  if (!match) return null;
+  let group = 1;
+  return runs.map((run) =>
+    KANJI_PATTERN.test(run[0]) ? { text: run, reading: match[group++] } : { text: run },
+  );
+}
+
+/**
+ * Leitet Segmente aus Wort + Gesamtlesung ab. Zuerst über Kana-Anker im ganzen Text
+ * (食べ物/たべもの → 食(た) べ 物(もの)), sonst durch Abtrennen gemeinsamer Kana am Anfang
+ * und Ende; bei unklarer Zuordnung eine Lesung für den gesamten Kanji-Kern.
  */
 export function segmentsFromReading(japanese: string, reading?: string): FuriganaSegment[] {
   if (!reading || !KANJI_PATTERN.test(japanese) || japanese === reading) {
     return [{ text: japanese }];
   }
+  const aligned = alignByKanaAnchors(japanese, reading);
+  if (aligned) return aligned;
   let prefix = 0;
   while (
     prefix < japanese.length &&

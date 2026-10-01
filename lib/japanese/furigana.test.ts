@@ -70,3 +70,36 @@ describe("toSegments", () => {
     expect(toSegments("今日", undefined, "きょう")).toEqual(explicit);
   });
 });
+
+describe("segmentsFromReading – Kana-Anker", () => {
+  it("ordnet Lesungen auch bei Kana zwischen Kanji zu", () => {
+    expect(segmentsFromReading("食べ物", "たべもの")).toEqual([
+      { text: "食", reading: "た" },
+      { text: "べ" },
+      { text: "物", reading: "もの" },
+    ]);
+    expect(
+      segmentsFromReading("ご注文はお決まりですか。", "ごちゅうもんはおきまりですか。"),
+    ).toEqual([
+      { text: "ご" },
+      { text: "注文", reading: "ちゅうもん" },
+      { text: "はお" },
+      { text: "決", reading: "き" },
+      { text: "まりですか。" },
+    ]);
+  });
+
+  it("vergleicht Katakana und Hiragana gleichwertig", () => {
+    expect(segmentsFromReading("コーヒーを飲む", "コーヒーをのむ")).toEqual([
+      { text: "コーヒーを" },
+      { text: "飲", reading: "の" },
+      { text: "む" },
+    ]);
+  });
+
+  it("fällt bei unpassender Lesung auf das bisherige Verfahren zurück", () => {
+    expect(segmentsFromReading("今日は", "きょうわ")).toEqual([
+      { text: "今日は", reading: "きょうわ" },
+    ]);
+  });
+});

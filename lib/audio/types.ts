@@ -9,6 +9,8 @@ export type AudioSource = {
   text?: string;
   /** BCP-47, Standard ja-JP. */
   lang?: string;
+  /** Tonhöhe der Sprachsynthese (0–2) – unterscheidet Sprecher in Gesprächen. */
+  pitch?: number;
 };
 
 export interface AudioPlayer {

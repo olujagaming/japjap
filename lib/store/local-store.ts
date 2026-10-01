@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { learnerProfileSchema, type LearnerProfile } from "@/lib/profile";
 import { CONTENT_TYPES, LEARNING_STATUSES, type ContentType } from "@/types/content";
-import type { FavoriteRecord, ProgressRecord, UserDataStore } from "./types";
+import { REVIEW_RATINGS } from "@/lib/srs/types";
+import type { FavoriteRecord, ProgressRecord, ReviewLogEntry, UserDataStore } from "./types";
 
 const STORAGE_KEY = "japjap.userdata.v1";
 
@@ -11,6 +12,8 @@ const progressSchema = z.object({
   status: z.enum(LEARNING_STATUSES),
   easeFactor: z.number(),
   intervalDays: z.number(),
+  repetitions: z.number().int().nonnegative().default(0),
+  lapses: z.number().int().nonnegative().default(0),
   nextReviewAt: z.string().nullable(),
   lastReviewedAt: z.string().nullable(),
   correctCount: z.number().int().nonnegative(),
@@ -23,15 +26,28 @@ const favoriteSchema = z.object({
   createdAt: z.string(),
 });
 
+const reviewLogSchema = z.object({
+  contentType: z.enum(CONTENT_TYPES),
+  contentId: z.string(),
+  taskType: z.string(),
+  rating: z.enum(REVIEW_RATINGS),
+  answer: z.string().optional(),
+  reviewedAt: z.string(),
+});
+
+/** Im Browser wird nur ein begrenzter Verlauf gehalten. */
+const MAX_LOG_ENTRIES = 2000;
+
 const dataSchema = z.object({
   profile: learnerProfileSchema.nullable().catch(null),
   progress: z.record(z.string(), progressSchema).catch({}),
   favorites: z.array(favoriteSchema).catch([]),
+  reviewLog: z.array(reviewLogSchema).catch([]),
 });
 
 type Data = z.infer<typeof dataSchema>;
 
-const EMPTY: Data = { profile: null, progress: {}, favorites: [] };
+const EMPTY: Data = { profile: null, progress: {}, favorites: [], reviewLog: [] };
 
 const progressKey = (type: ContentType, id: string) => `${type}:${id}`;
 
@@ -105,5 +121,18 @@ export class LocalUserDataStore implements UserDataStore {
     }
     this.write(data);
     return index < 0;
+  }
+
+  async recordReview(entry: ReviewLogEntry) {
+    const data = this.read();
+    data.reviewLog.unshift(reviewLogSchema.parse(entry));
+    data.reviewLog.length = Math.min(data.reviewLog.length, MAX_LOG_ENTRIES);
+    this.write(data);
+  }
+
+  async listReviewLog(options: { since?: string; limit?: number } = {}) {
+    let log = this.read().reviewLog;
+    if (options.since) log = log.filter((e) => e.reviewedAt >= options.since!);
+    return options.limit ? log.slice(0, options.limit) : log;
   }
 }

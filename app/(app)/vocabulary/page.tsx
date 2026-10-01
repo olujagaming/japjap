@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PageHeader } from "@/components/layout/page-header";
-import { UpcomingSection } from "@/components/layout/upcoming-section";
+import { LoadingState } from "@/components/ui/states";
+import { VocabularyBrowser } from "@/components/vocabulary/vocabulary-browser";
+import { VOCABULARY } from "@/data/vocabulary";
 
 export const metadata: Metadata = { title: "Vokabeln" };
 
@@ -10,20 +13,11 @@ export default function VocabularyPage() {
       <PageHeader
         title="Vokabeln"
         ja="語彙"
-        description="Dein Wortschatz – durchsuchbar, verknüpft mit Kanji, Sätzen und Gesprächen."
+        description={`${VOCABULARY.length} Wörter für Alltag und Reisen – jedes verknüpft mit Kanji, Beispielsätzen und Grammatik.`}
       />
-      <UpcomingSection
-        ja="語彙"
-        title="Dieser Bereich wird gerade aufgebaut."
-        description="Die Grundlagen der App stehen. Die Inhalte für diesen Bereich folgen in einem der nächsten Schritte."
-        fallback={{ href: "/search", label: "Zur Suche" }}
-        features={[
-          "Wörter mit Lesung, Romaji, Deutsch und Audio",
-          "Filter nach JLPT, Wortart, Situation und Status",
-          "Beispielsätze und Gespräche, in denen das Wort vorkommt",
-          "Favoriten und Aufnahme in die Wiederholung",
-        ]}
-      />
+      <Suspense fallback={<LoadingState />}>
+        <VocabularyBrowser />
+      </Suspense>
     </>
   );
 }

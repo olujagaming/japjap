@@ -1,29 +1,22 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PageHeader } from "@/components/layout/page-header";
-import { UpcomingSection } from "@/components/layout/upcoming-section";
+import { GlobalSearch } from "@/components/search/global-search";
+import { LoadingState } from "@/components/ui/states";
 
 export const metadata: Metadata = { title: "Suche" };
 
 export default function SearchPage() {
   return (
-    <>
+    <div className="max-w-3xl">
       <PageHeader
         title="Suche"
         ja="検索"
-        description="Suche auf Japanisch, in Kana, Romaji oder Deutsch."
+        description="Kana, Vokabeln, Kanji, Grammatik und Beispielsätze – auf Japanisch, in Romaji oder auf Deutsch."
       />
-      <UpcomingSection
-        ja="検索"
-        title="Dieser Bereich wird gerade aufgebaut."
-        description="Die Grundlagen der App stehen. Die Inhalte für diesen Bereich folgen in einem der nächsten Schritte."
-        fallback={{ href: "/", label: "Zur Startseite" }}
-        features={[
-          "Ergebnisse gruppiert nach Kana, Kanji, Vokabeln, Grammatik, Gesprächen",
-          "Eingabe in Kanji, Hiragana, Katakana, Romaji oder Deutsch",
-          "Schnellzugriff mit Cmd/Strg + K",
-          "Direkter Sprung zu jeder Detailseite",
-        ]}
-      />
-    </>
+      <Suspense fallback={<LoadingState />}>
+        <GlobalSearch />
+      </Suspense>
+    </div>
   );
 }
