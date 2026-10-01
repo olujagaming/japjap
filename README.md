@@ -159,11 +159,30 @@ Umgebungsvariablen-Vorlage, Dokumentation.
 - Startseite: fällige Wiederholungen, „Zuletzt entdeckt“, persönliche Schwierigkeiten;
   Fortschrittsseite mit Listening der letzten 30 Tage
 
-**Als Nächstes: Phase 6 – AI Conversation.** Freie Gespräche mit einem AI-Partner (Claude):
-Setup (Situation, Niveau, Partner, Höflichkeit), Chat-UI, strukturierte und validierte
-Antworten, Feedback auf Abruf mit natürlicher Alternative und deutscher Erklärung.
+**Phase 6 – AI Conversation** ✅
 
-Danach: Phase 7 Sprache (optional).
+- Freie Gespräche mit Claude (`/practice/conversation`): Situation, Niveau, Gesprächspartner und
+  Höflichkeit wählbar; Einstieg auch direkt von jeder Situationsseite („Frei mit AI üben“)
+- Der Partner kennt deinen Wortschatz und deine Grammatik aus dem Fortschritt und passt Satzlänge
+  und Vokabular ans Niveau an
+- Jede Antwort mit Furigana, Romaji, Übersetzung und Worterklärungen auf Klick, dazu ein Tipp
+- Feedback nur auf Abruf: Verständlichkeit, Grammatik, Natürlichkeit, Höflichkeit, kurze deutsche
+  Erklärung und natürlichere Alternative
+- Strukturierte Ausgaben, doppelt mit Zod validiert; Ablehnungen und abgeschnittene Antworten
+  werden als verständliche Fehlermeldung mit „Erneut versuchen“ angezeigt
+- Sicherheit: `ANTHROPIC_API_KEY` nur serverseitig (Server Actions), Eingaben validiert,
+  Rate-Limit 30 Anfragen / 10 Minuten; mit konfiguriertem Supabase nur für angemeldete Nutzer.
+  Ohne Key zeigt die Seite einen Hinweis und verweist auf die geskripteten Rollenspiele.
+
+**Phase 7 – Sprache** ✅
+
+- Spracheingabe per Mikrofon (Web Speech API, ja-JP) im AI-Chat und in den Rollenspielen
+- „Nachsprechen“ auf Vokabelseiten und bei Gesprächszeilen: Bewertung, wie gut die Erkennung das
+  Gesagte verstanden hat (0–100, mit Hinweis). Das ist ein Erkennungssignal, keine phonetische
+  Ausspracheanalyse.
+- Buttons erscheinen nur in Browsern mit Spracherkennung (z. B. Chrome, Edge, Safari)
+- `SpeechProvider`-Interface mit Erweiterungspunkten für serverseitige Transkription und
+  echte Ausspracheanalyse
 
 ## Lizenzhinweise
 

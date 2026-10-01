@@ -1,16 +1,19 @@
 import "server-only";
+import { ClaudeProvider } from "./claude-provider";
 import type { AIProvider } from "./types";
+
+let provider: AIProvider | null = null;
+
+export function isAIConfigured(): boolean {
+  return Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);
+}
 
 /**
  * Liefert den konfigurierten AI-Provider oder `null`, wenn kein Schlüssel hinterlegt ist.
- * Die UI zeigt dann einen erklärenden Hinweis statt einer funktionslosen Oberfläche.
- * Die konkrete Implementierung folgt in Phase 6.
+ * Der Schlüssel wird ausschließlich serverseitig gelesen.
  */
 export function getAIProvider(): AIProvider | null {
-  // Phase 6: bei gesetztem ANTHROPIC_API_KEY hier den Claude-Provider zurückgeben.
-  return null;
-}
-
-export function isAIConfigured(): boolean {
-  return Boolean(process.env.ANTHROPIC_API_KEY);
+  if (!isAIConfigured()) return null;
+  provider ??= new ClaudeProvider();
+  return provider;
 }

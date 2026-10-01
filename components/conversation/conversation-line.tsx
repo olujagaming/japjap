@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { JapaneseText } from "@/components/japanese/japanese-text";
+import { PronunciationCheck } from "@/components/speech/pronunciation-check";
 import { useSettings } from "@/hooks/use-settings";
 import { cn } from "@/lib/utils";
 import type { ConversationLine as Line, Speaker } from "@/types/content";
@@ -64,7 +65,6 @@ export function ConversationLineView({
 
   const furiganaOn = furigana ?? settings.furigana !== "off";
   const translationOn = translation ?? settings.translation === "always";
-  const hasBreakdown = words.length + grammar.length > 0 || Boolean(line.noteDe);
 
   return (
     <li
@@ -100,11 +100,9 @@ export function ConversationLineView({
           <Toggle pressed={translationOn} onClick={() => setTranslation(!translationOn)}>
             Deutsch
           </Toggle>
-          {hasBreakdown ? (
-            <Toggle pressed={breakdown} onClick={() => setBreakdown(!breakdown)}>
-              Aufschlüsselung
-            </Toggle>
-          ) : null}
+          <Toggle pressed={breakdown} onClick={() => setBreakdown(!breakdown)}>
+            Aufschlüsselung
+          </Toggle>
         </div>
         {breakdown ? (
           <div className="animate-in flex flex-col gap-3 border-t border-line pt-3">
@@ -152,6 +150,7 @@ export function ConversationLineView({
             {line.noteDe ? (
               <p className="text-sm leading-relaxed text-muted">{line.noteDe}</p>
             ) : null}
+            <PronunciationCheck japanese={line.japanese} reading={line.reading} compact />
           </div>
         ) : null}
       </div>

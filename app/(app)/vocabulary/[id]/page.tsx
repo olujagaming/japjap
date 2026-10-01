@@ -11,6 +11,7 @@ import {
 } from "@/components/learning/content-cards";
 import { summarizeConversation } from "@/lib/content/conversation-data";
 import { LearningActions } from "@/components/learning/learning-actions";
+import { PronunciationCheck } from "@/components/speech/pronunciation-check";
 import { Badge } from "@/components/ui/badge";
 import { FREQUENCY_LABELS, PART_OF_SPEECH_LABELS, TAG_LABELS } from "@/data/vocabulary";
 import {
@@ -64,6 +65,7 @@ export default async function VocabularyDetailPage({ params }: PageProps<"/vocab
             size="xl"
           />
           <h1 className="text-2xl font-semibold tracking-tight">{word.german.join(", ")}</h1>
+          <PronunciationCheck japanese={word.japanese} reading={word.reading} />
           <div className="flex flex-wrap gap-2">
             <Badge>{PART_OF_SPEECH_LABELS[word.partOfSpeech]}</Badge>
             {word.jlpt ? <Badge>{word.jlpt}</Badge> : null}

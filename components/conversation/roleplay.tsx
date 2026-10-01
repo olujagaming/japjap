@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { AudioButton } from "@/components/japanese/audio-button";
+import { MicButton } from "@/components/speech/mic-button";
 import { JapaneseText } from "@/components/japanese/japanese-text";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { CheckIcon } from "@/components/ui/icons";
@@ -197,6 +198,11 @@ export function Roleplay({ conversation }: { conversation: Conversation }) {
           <div className="flex flex-wrap gap-2">
             <Button type="submit">{input.trim() ? "Antworten" : "Musterantwort zeigen"}</Button>
             <AudioButton text={line.reading} pitch={1} label="Musterantwort anhören" />
+            <MicButton
+              onTranscript={(text) =>
+                setInput((current) => (current ? `${current} ${text}` : text))
+              }
+            />
           </div>
         </form>
       ) : null}

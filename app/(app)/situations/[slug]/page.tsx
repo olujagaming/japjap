@@ -68,6 +68,13 @@ export default async function SituationPage({ params }: PageProps<"/situations/[
             >
               Erst nur hören
             </ButtonLink>
+            <ButtonLink
+              href={`/practice/conversation?situation=${situation.slug}`}
+              size="lg"
+              variant="ghost"
+            >
+              Frei mit AI üben
+            </ButtonLink>
           </div>
         ) : null}
       </header>
